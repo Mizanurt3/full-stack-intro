@@ -4,23 +4,31 @@ import styles from './page.module.css';
 import prisma from '@/lib/prisma';
 import Post from "./components/Post";
 import Link from "next/link";
-// import { AddPostLinkButton } from "./components/add-post-link-button"; // Assuming the component name is Button
+
 
 async function getPosts() {
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    include: {
-      author: {
-        select: { name: true },
-      },
+  const response = await fetch("https://full-stack-intro-livid.vercel.app//api/post",
+  
+  {
+    method:"GET",
+    next: {
+        revalidate: 10,
     },
-  });
+}
+  );
+  if (!response.ok) {
+    throw new Error("There was an error fetching posts");
+  }
+
+  const posts = await response.json();
   return posts;
+  
 }
 
 export default async function Home() {
-  const posts = await getPosts();
-
+  const postss = await getPosts();
+  const posts =postss.posts
+ 
   return (
     <main className={styles.main}>
       <Link className="outline-2 font-bold uppercase" href="/add-post">  
@@ -39,3 +47,4 @@ export default async function Home() {
     </main>
   );
 }
+
