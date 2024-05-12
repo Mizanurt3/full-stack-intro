@@ -14,14 +14,7 @@ export async function DELETE(request, {params}){
         where: {id}
     })
 
-    return NextResponse.json(post,{
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
-})
+    return NextResponse.json(post)
 }
 
 function handleError(error) {
@@ -43,14 +36,7 @@ export async function GET(request, { params }) {
         return NextResponse.json({ message: "Post not found" }, { status: 404 });
       }
   
-      return NextResponse.json(post,{
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        },
-  });
+      return NextResponse.json(post);
     } catch (error) {
       return handleError(error);
     }
