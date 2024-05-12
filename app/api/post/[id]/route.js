@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic' // defaults to auto
+ 
+
+
 
 
 export async function DELETE(request, {params}){
@@ -10,15 +14,23 @@ export async function DELETE(request, {params}){
         where: {id}
     })
 
-    return NextResponse.json(post)
+    return NextResponse.json(post,{
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+})
 }
 
 function handleError(error) {
     console.error(error);
     return NextResponse.json({ message: "Error fetching post" }, { status: 500 });
   }
-  
-  export async function GET(request, { params }) {
+
+
+export async function GET(request, { params }) {
     try {
         const id=request.url.split("post/")[1];
     //   const id = params.id;
@@ -31,7 +43,14 @@ function handleError(error) {
         return NextResponse.json({ message: "Post not found" }, { status: 404 });
       }
   
-      return NextResponse.json(post);
+      return NextResponse.json(post,{
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+  });
     } catch (error) {
       return handleError(error);
     }

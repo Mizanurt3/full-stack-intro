@@ -1,5 +1,6 @@
 'use client'
-import { useRouter } from "next/navigation"
+import { getPosts } from "@/lib/getPosts"
+import { redirect, useRouter } from "next/navigation"
 
 export default function DeletePostButton({postId}){
     const router = useRouter()
@@ -10,11 +11,13 @@ export default function DeletePostButton({postId}){
             await fetch(`/api/post/${postId}`, {
                 method: 'DELETE'
             })
+            
+            
             router.refresh()
         } catch(e){
             console.error(e)
         }
-       
+        
     }
 
     return (

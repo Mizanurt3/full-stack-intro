@@ -3,6 +3,7 @@ import styles from '@/app/page.module.css'
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getPosts } from '@/lib/getPosts';
 
 export default function AddPost(){
     const [title, setTitle] = useState('');
@@ -28,13 +29,15 @@ export default function AddPost(){
             },
             body: JSON.stringify({title, content}) })
             
-        router.refresh()
+        
     } catch (error){
         console.error(error)
     }
 
     setTitle('');
     setContent('');
+    router.push('/');
+    router.refresh();
   };
 
     return (
